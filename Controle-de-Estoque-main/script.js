@@ -1,7 +1,7 @@
+let produtos = []; // Matriz para armazenar os produtos.
 
-let produtos = [];
+function menu() { // Função principal do menu para escolha da opção do usuário.
 
-function menu() {
     let opcao;
     do {
         opcao = prompt(
@@ -14,7 +14,7 @@ function menu() {
             "0 - Sair"
         );
 
-    switch(opcao) {
+    switch(opcao) { // Switch para chamar a função escolhida pelo usuário.
 
         case "1": 
             cadastrar(); 
@@ -46,13 +46,15 @@ function menu() {
     } while(opcao !== "0");
 }
 
-function cadastrar() {
+function cadastrar() { // Função para cadastrar um novo produto.
 
     let nome = prompt("Nome do produto:");
     let preco = parseFloat(prompt("Preço:"));
     let qtd = parseInt(prompt("Quantidade:"));
     
-    let erros = [];
+    // Validação de dados. Em caso de erros, armazena no array erros e exibe no final do prompt.
+
+    let erros = []; 
 
     if(!nome || nome.length < 2) erros.push('❌ Nome não pode estar vazio ou ter menos de 2 caracteres.');
     if(isNaN(preco) || preco <= 0) erros.push('❌ Preço deve ser um número positivo.');
@@ -61,55 +63,64 @@ function cadastrar() {
         alert(erros.join("\n"));
     }
 
-    if(erros.length === 0){
+    if(erros.length === 0){ // Caso o array esteja vazio, cadastra o produto.
         produtos.push([nome, preco, qtd]);
         alert("✅ Produto cadastrado!")
     }
 }
 
-function buscarNome(matriz, nome){
+function buscarNome(matriz, nome){ // Função para impedir um cadastro duplicado ( Ainda não implementada ).
     return matriz.findIndex(linha => linha[0] === nome)
 }
 
-function listar() {
+function listar() { // Função para listar os produtos cadastrados.
 
     let texto = "=== Produtos ===\n";
 
     for(let i=0; i<produtos.length; i++) {
 
-        let [nome, preco, qtd] = produtos[i];
+        let nome = produtos[i][0]; // Atribui as variáveis os valores de cada coluna da matriz.
+        let preco = produtos[i][1];
+        let qtd = produtos[i][2];
+
         let alerta = (qtd <= 5) ? " ⚠️ ESTOQUE BAIXO" : "";
-        texto += `${i+1}. ${nome} - R$${preco.toFixed(2)} - Qtd: ${qtd}${alerta}\n`;
+        texto += `${i+1}. Produto: ${nome} - Preço: R$${preco.toFixed(2)} - Quantidade: ${qtd}${alerta}\n`;
 }
-//document.getElementById("saida").textContent = texto;
+//document.getElementById("saida").textContent = texto; 
     alert(texto);
 }
 
-function atualizar() {
+function atualizar() { // Função para atualizar um produto cadastrado.
 
+    // Chama a função listar para mostrar os produtos cadastrados. Pede o número do produto para escolher qual atualizar ( Índice -1 para facilitar o usuário ).
     listar();
     let indice = parseInt(prompt("Digite o numero do produto para atualizar:")) - 1;
 
     if(indice >=0 && indice < produtos.length) {
 
-        let [nome, preco, qtd] = produtos[indice];
+        let nome = produtos[indice][0]; 
+        let preco = produtos[indice][1];    
+        let qtd = produtos[indice][2];
+
         let novoNome = prompt("Novo nome:", nome);
         let novoPreco = parseFloat(prompt("Novo preço:", preco));
-        let novaQtd = parseInt(prompt("Nova quantidade:", qtd));
+        let novaQtd = parseInt(prompt("Nova quantidade:", qtd)); // Com base no índice, mostra os antigos valores e pede os novos ou mantém os antigos.
 
         produtos[indice] = [novoNome, novoPreco, novaQtd];
-        alert("✅ Produto atualizado!");
+        alert("✅ Produto atualizado!"); 
     } else {
         alert("❌ Produto não encontrado.");
     }
 }
 
-function remover() {
+function remover() { // Função para remover um produto cadastrado.
 
+    // Chama a função listar para mostrar os produtos cadastrados. Pede o número do produto para escolher qual remover ( Índice -1 para facilitar o usuário ).
     listar();
     let indice = parseInt(prompt("Digite o numero do produto para remover:")) - 1;
 
-    if(indice >=0 && indice < produtos.length) {
+    // Com base no índice, remove o produto da matriz utilizando a função splice.
+    if(indice >=0 && indice < produtos.length) { 
         produtos.splice(indice, 1);
         alert("✅ Produto removido!");
     } else {
@@ -117,10 +128,11 @@ function remover() {
     }
 }
 
-function valorTotal() {
+function valorTotal() { // Função para mostrar o valor total do estoque.
+    
     let total = 0;
 
-    for(let i=0; i<produtos.length; i++) {
+    for(let i=0; i<produtos.length; i++) { // Faz a multiplicação do preco pela quantidade dos produtos e soma no final.
         total += produtos[i][1] * produtos[i][2];
     }
     alert("Valor total do estoque: R$" + total.toFixed(2));
