@@ -56,6 +56,11 @@ function cadastrar() { // Função para cadastrar um novo produto.
 
     let erros = []; 
 
+    let index = buscarNome(produtos, nome);
+    if (index !== -1) {
+      erros.push('Produto já existe.');
+    }
+
     if(!nome || nome.length < 2) erros.push('❌ Nome não pode estar vazio ou ter menos de 2 caracteres.');
     if(isNaN(preco) || preco <= 0) erros.push('❌ Preço deve ser um número positivo.');
     if(isNaN(qtd) || qtd < 0) erros.push('❌ Quantidade deve ser maior que 0')
