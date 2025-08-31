@@ -143,3 +143,16 @@ function valorTotal() { // Função para mostrar o valor total do estoque.
     alert("Valor total do estoque: R$" + total.toFixed(2));
 }
 
+function listarProdutosEmFalta() { // Função para listar produtos com estoque em falta.
+    let texto = "=== Produtos em falta ===\n";
+
+    for(let i=0; i<produtos.length; i++) {
+        let nome = produtos[i][0];
+        let qtd = produtos[i][2];
+        if(qtd === 0) {
+            texto += `${i+1}. Produto: ${nome} - Quantidade: ${qtd}\n`;
+        }
+    }
+    alert(texto);
+    console.log(texto);
+}
