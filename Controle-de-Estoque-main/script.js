@@ -93,6 +93,7 @@ function listar() { // Função para listar os produtos cadastrados.
 }
 //document.getElementById("saida").textContent = texto; 
     alert(texto);
+    console.log(texto);
 }
 
 function atualizar() { // Função para atualizar um produto cadastrado.
@@ -141,5 +142,6 @@ function valorTotal() { // Função para mostrar o valor total do estoque.
         total += produtos[i][1] * produtos[i][2];
     }
     alert("Valor total do estoque: R$" + total.toFixed(2));
+    console.log("Valor total do estoque: R$" + total.toFixed(2));
 }
 
