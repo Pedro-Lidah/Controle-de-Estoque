@@ -55,10 +55,12 @@ function cadastrar() { // Função para cadastrar um novo produto.
     // Validação de dados. Em caso de erros, armazena no array erros e exibe no final do prompt.
 
     let erros = []; 
+
     let index = buscarNome(produtos, nome);
     if (index !== -1) {
       erros.push('Produto já existe.');
     }
+
     if(!nome || nome.length < 2) erros.push('❌ Nome não pode estar vazio ou ter menos de 2 caracteres.');
     if(isNaN(preco) || preco <= 0) erros.push('❌ Preço deve ser um número positivo.');
     if(isNaN(qtd) || qtd < 0) erros.push('❌ Quantidade deve ser maior que 0')
@@ -91,6 +93,7 @@ function listar() { // Função para listar os produtos cadastrados.
 }
 //document.getElementById("saida").textContent = texto; 
     alert(texto);
+    console.log(texto);
 }
 
 function atualizar() { // Função para atualizar um produto cadastrado.
@@ -139,5 +142,19 @@ function valorTotal() { // Função para mostrar o valor total do estoque.
         total += produtos[i][1] * produtos[i][2];
     }
     alert("Valor total do estoque: R$" + total.toFixed(2));
+    console.log("Valor total do estoque: R$" + total.toFixed(2));
 }
 
+function listarProdutosEmFalta() { // Função para listar produtos com estoque em falta.
+    let texto = "=== Produtos em falta ===\n";
+
+    for(let i=0; i<produtos.length; i++) {
+        let nome = produtos[i][0];
+        let qtd = produtos[i][2];
+        if(qtd === 0) {
+            texto += `${i+1}. Produto: ${nome} - Quantidade: ${qtd}\n`;
+        }
+    }
+    alert(texto);
+    console.log(texto);
+}
