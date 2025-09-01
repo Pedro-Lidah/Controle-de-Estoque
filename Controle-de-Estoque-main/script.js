@@ -63,7 +63,7 @@ function cadastrar() { // Função para cadastrar um novo produto.
 
     if(!nome || nome.length < 2) erros.push('❌ Nome não pode estar vazio ou ter menos de 2 caracteres.');
     if(isNaN(preco) || preco <= 0) erros.push('❌ Preço deve ser um número positivo.');
-    if(isNaN(qtd) || qtd < 0) erros.push('❌ Quantidade deve ser maior que 0')
+    if(isNaN(qtd) || qtd < 0) erros.push('❌ Quantidade pode ser zero ou um número positivo')
     if(erros.length > 0){
         alert(erros.join("\n"));
     }
@@ -112,8 +112,25 @@ function atualizar() { // Função para atualizar um produto cadastrado.
         let novoPreco = parseFloat(prompt("Novo preço:", preco));
         let novaQtd = parseInt(prompt("Nova quantidade:", qtd)); // Com base no índice, mostra os antigos valores e pede os novos ou mantém os antigos.
 
-        produtos[indice] = [novoNome, novoPreco, novaQtd];
-        alert("✅ Produto atualizado!"); 
+        let erros = []; 
+
+        let index = buscarNome(produtos, novoNome);
+        if (index !== -1 && index !== indice) {
+            erros.push('Produto já existe.');
+        }
+
+        if(!novoNome || novoNome.length < 2) erros.push('❌ Nome não pode estar vazio ou ter menos de 2 caracteres.');
+        if(isNaN(novoPreco) || novoPreco <= 0) erros.push('❌ Preço deve ser um número positivo.');
+        if(isNaN(novaQtd) || novaQtd < 0) erros.push('❌ Quantidade pode ser zero ou um número positivo.');
+        if(erros.length > 0){
+            alert(erros.join("\n"));
+        }
+
+        if (erros.length === 0) { // Caso o array esteja vazio, atualiza o produto.
+            produtos[indice] = [novoNome, novoPreco, novaQtd];
+            alert("✅ Produto atualizado!"); 
+        }
+
     } else {
         alert("❌ Produto não encontrado.");
     }
